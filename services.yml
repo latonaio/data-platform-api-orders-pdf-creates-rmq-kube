@@ -1,0 +1,92 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: data-platform-api-orders-pdf-creates-rmq-kube
+  name: data-platform-api-orders-pdf-creates-rmq-kube
+spec:
+  selector:
+    matchLabels:
+      run: data-platform-api-orders-pdf-creates-rmq-kube
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        run: data-platform-api-orders-pdf-creates-rmq-kube
+    spec:
+      nodeName: worker
+      hostname: data-platform-api-orders-pdf-creates-rmq-kube
+      containers:
+        - name: data-platform-api-orders-pdf-creates-rmq-kube
+          image: latonaio/data-platform-api-orders-pdf-creates-rmq-kube
+          imagePullPolicy: Always
+          env:
+            - name: TZ
+              value: Asia/Tokyo
+            - name: RMQ_QUEUE_FROM
+              value: "data-platform-api-orders-pdf-creates-queue-from"
+            - name: RMQ_QUEUE_TO
+              value: "sap-sql-update-kube"
+            - name: MOUNT_PDF_PATH
+              value: "/pdf-volume"
+          envFrom:
+            - configMapRef:
+                name: env-config
+          volumeMounts:
+            - name: pdf-storage
+              mountPath: /pdf-volume
+      volumes:
+        - name: pdf-persistent-storage
+          persistentVolumeClaim:
+            claimName: data-platform-api-orders-pdf-creates-rmq-kube-pv-claim
+        - name: pdf-storage
+          hostPath:
+            path: /mnt/data-platform-api-orders-pdf-creates-rmq-kube
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: data-platform-api-orders-pdf-creates-rmq-kube
+  name: data-platform-api-orders-pdf-creates-rmq-kube
+spec:
+  selector:
+    run: data-platform-api-orders-pdf-creates-rmq-kube
+  type: NodePort
+  ports:
+    - name: data-platform-api-orders-pdf-creates-rmq-kube
+      port: 3000
+      protocol: TCP
+      nodePort: 30001
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data-platform-api-orders-pdf-creates-rmq-kube-pv-claim
+  namespace: default
+spec:
+  storageClassName: data-platform-api-orders-pdf-creates-rmq-kube
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: data-platform-api-orders-pdf-creates-rmq-kube-pv-volume
+  labels:
+    type: local
+  namespace: default
+spec:
+  storageClassName: data-platform-api-orders-pdf-creates-rmq-kube
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mnt/data-platform-api-orders-pdf-creates-rmq-kube
+---

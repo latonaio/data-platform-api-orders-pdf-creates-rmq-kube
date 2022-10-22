@@ -1,0 +1,20 @@
+{
+  "cursor": "/go/src/github.com/latonaio/formatter/OrdersHeaderPDF.go#L68",
+  "function": "data-platform-api-orders-creates-pdf/formatter.CreateResponseOrdersHeaderPDF",
+  "level": "INFO",
+  "message": {
+    "function": "OrdersHeaderPDF",
+    "message": [
+      {
+        "BusinessPartner": 101,
+        "OrderID": 1,
+        "DocType": "ORDER",
+        "DocVersionID": 1,
+        "DocID": "92q9o0fa90g\u0026awp090aqqm0qopgwaepw9ere0weg",
+        "FileName": "ラトナ株式会社殿_注文書_20221020_0001.pdf"
+      }
+    ],
+    "runtime_session_id": "cd6d58b1-163c-4245-b6d0-5e87fc627807"
+  },
+  "time": "2022-10-21T08:47:29Z"
+}
