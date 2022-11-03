@@ -1,7 +1,7 @@
 package formatter
 
 import (
-	"github.com/latonaio/golang-logging-library-for-sap/logger"
+	"github.com/latonaio/golang-logging-library-for-data-platform/logger"
 )
 
 type InputServiceParam struct {

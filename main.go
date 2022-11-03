@@ -4,8 +4,8 @@ import (
 	"data-platform-api-orders-pdf-creates-rmq-kube/configs"
 	"data-platform-api-orders-pdf-creates-rmq-kube/internal"
 
-	"github.com/latonaio/golang-logging-library-for-sap/logger"
-	rabbitmq "github.com/latonaio/rabbitmq-golang-client"
+	"github.com/latonaio/golang-logging-library-for-data-platform/logger"
+	rabbitmq "github.com/latonaio/rabbitmq-golang-client-for-data-platform"
 )
 
 func main() {
@@ -17,7 +17,7 @@ func main() {
 
 	l.Info("created configs instance", cfgs.RMQ.URL(), cfgs.RMQ.QueueFrom(), cfgs.RMQ.QueueTo())
 
-	rmq, err := rabbitmq.NewRabbitmqClient(cfgs.RMQ.URL(), cfgs.RMQ.QueueFrom(), cfgs.RMQ.QueueTo())
+	rmq, err := rabbitmq.NewRabbitmqClient(cfgs.RMQ.URL(), cfgs.RMQ.QueueFrom(), "", cfgs.RMQ.QueueTo(), -1)
 
 	if err != nil {
 		l.Fatal(err.Error())

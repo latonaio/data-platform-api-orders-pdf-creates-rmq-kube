@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/latonaio/golang-logging-library-for-sap/logger"
-	rabbitmqClient "github.com/latonaio/rabbitmq-golang-client"
+	"github.com/latonaio/golang-logging-library-for-data-platform/logger"
+	rabbitmqClient "github.com/latonaio/rabbitmq-golang-client-for-data-platform"
 )
 
 var mountPdfPath string
